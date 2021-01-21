@@ -1,14 +1,6 @@
 const express = require ('express');
 const app = express ();
 
-app.use(function(req, res, next) {
-    // allow different IP address
-    res.header("Access-Control-Allow-Origin","*");
-    // allow different header fields
-    res.header("Access-Control-Allow-Headers","*");
-        next();
-});
-
 
 app.use(express.json());
 
@@ -52,6 +44,7 @@ app.post ('/collection/:collectionName', (req, res, next) => {
     req.collection.insert(req.body, (e, results) => {
         if (e) return next (e)
         res.send (results.ops)
+        res.header("Access-Control-Allow-Headers","*");
     })
 })
 
@@ -64,6 +57,7 @@ app.put('/collection/:collectionName/:id', (req, res, next) => {
         (e, result) => {
             if (e) return next (e)
             res.send((result.result.n ===1)?
+            res.header("Access-Control-Allow-Headers","*");
             {msg: 'success'}:{msg: 'error'})
         })
 })
