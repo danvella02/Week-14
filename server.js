@@ -69,6 +69,14 @@ app.delete('/collection/:collectionName/:id', (req, res, next) => {
     })
 })
 
+app.use(function(req, res, next) {
+    // allow different IP address
+    res.header("Access-Control-Allow-Origin","*");
+    // allow different header fields
+    res.header("Access-Control-Allow-Headers","*");
+        next();
+});
+
 
 const port = process.env.PORT || 3000
 app.listen(port)
