@@ -1,6 +1,15 @@
 const express = require ('express');
 const app = express ();
 
+app.use(function(req, res, next) {
+    // allow different IP address
+    res.header("Access-Control-Allow-Origin","*");
+    // allow different header fields
+    res.header("Access-Control-Allow-Headers","*");
+        next();
+});
+
+
 app.use(express.json());
 
 const MongoClient = require('mongodb').MongoClient;
@@ -69,13 +78,6 @@ app.delete('/collection/:collectionName/:id', (req, res, next) => {
     })
 })
 
-app.use(function(req, res, next) {
-    // allow different IP address
-    res.header("Access-Control-Allow-Origin","*");
-    // allow different header fields
-    res.header("Access-Control-Allow-Headers","*");
-        next();
-});
 
 
 const port = process.env.PORT || 3000
