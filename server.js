@@ -14,17 +14,40 @@ MongoClient.connect('mongodb+srv://danvella02:Rapmap02@projects.qeyey.mongodb.ne
 
 app.param('collectionName', (req, res, next, collectionName) => {
     req.collection = db.collection(collectionName)
+    res.header("Access-Control-Allow-Origin"
+,
+"*");
+// allow different header fields
+res.header("Access-Control-Allow-Headers"
+,
+"*");
     return next()
 })
 
 app.get('/', function (req, res) {
     res.send('Select a collection, e.g., /collection/messages')
+    res.header("Access-Control-Allow-Origin"
+,
+"*");
+// allow different header fields
+res.header("Access-Control-Allow-Headers"
+,
+"*");
+
 })
 
 app.get('/collection/:collectionName', (req, res) => {
     req.collection.find({}).toArray((e, results) => {
         if (e) return next(e)
         res.send(results)
+        res.header("Access-Control-Allow-Origin"
+,
+"*");
+// allow different header fields
+res.header("Access-Control-Allow-Headers"
+,
+"*");
+
     })
 })
 
@@ -36,6 +59,14 @@ app.get('/collection/:collectionName/:id',(req, res, next) => {
         (e, result) => {
             if (e) return next (e)
             res.send(result)
+            res.header("Access-Control-Allow-Origin"
+,
+"*");
+// allow different header fields
+res.header("Access-Control-Allow-Headers"
+,
+"*");
+
         })
 })
 
@@ -44,7 +75,14 @@ app.post ('/collection/:collectionName', (req, res, next) => {
     req.collection.insert(req.body, (e, results) => {
         if (e) return next (e)
         res.send (results.ops)
-        res.header("Access-Control-Allow-Headers","*");
+       res.header("Access-Control-Allow-Origin"
+,
+"*");
+// allow different header fields
+res.header("Access-Control-Allow-Headers"
+,
+"*");
+
     })
 })
 
@@ -57,7 +95,14 @@ app.put('/collection/:collectionName/:id', (req, res, next) => {
         (e, result) => {
             if (e) return next (e)
             res.send((result.result.n ===1)?
-            res.header("Access-Control-Allow-Headers","*");
+           res.header("Access-Control-Allow-Origin"
+,
+"*");
+// allow different header fields
+res.header("Access-Control-Allow-Headers"
+,
+"*");
+
             {msg: 'success'}:{msg: 'error'})
         })
 })
@@ -68,6 +113,14 @@ app.delete('/collection/:collectionName/:id', (req, res, next) => {
         (e, result) => {
             if (e) return next(e)
             res.send((result.result.n === 1) ?
+                     res.header("Access-Control-Allow-Origin"
+,
+"*");
+// allow different header fields
+res.header("Access-Control-Allow-Headers"
+,
+"*");
+
                 {msg: 'success'} : {msg: 'error'})
     })
 })
